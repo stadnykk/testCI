@@ -1,17 +1,12 @@
-# Use the latest 2.1 version of CircleCI pipeline process engine. See: https://circleci.com/docs/2.0/configuration-reference
-version: 2.1
-# Use a package of configuration called an orb.
-orbs:
-  # Declare a dependency on the welcome-orb
-  welcome: circleci/welcome-orb@0.4.1
-# Orchestrate or schedule a set of jobs
-workflows:
-  # Name the workflow "welcome"
-  test:
-    # Run the welcome/run job in its own container
-    jobs:
-      - test/run
-      - steps:
+version: 2
+
+  jobs:
+    # The test job
+    test:
+      working_directory: ~/project-name
+      docker:
+        - image: circleci/node:10-browsers
+      steps:
         # Checkout the code from the branch into the working_directory
         - checkout
         # Log the current branch
@@ -44,66 +39,3 @@ workflows:
         - run:
           name: End to End Test
           command: npm run e2e -- --protractor-config=e2e/protractor-ci.conf.js
-
-
-#ERROR IN CONFIG FILE:
-# [#/workflows/welcome] only 1 subschema matches out of 2
-# 1. [#/workflows/welcome/jobs/1] 0 subschemas matched instead of one
-# |   1. [#/workflows/welcome/jobs/1] expected type: String, found: Mapping
-# |   |   SCHEMA:
-# |   |     type: string
-# |   |   INPUT:
-# |   |     steps:
-# |   |     - checkout
-# |   |     - run: null
-# |   |       name: Show current branch
-# |   |       command: echo ${CIRCLE_BRANCH}
-# |   |     - restore_cache: null
-# |   |       keys:
-# |   |       - v1-dependencies-{{ checksum \"package-lock.json\" }}
-# |   |       - v1-dependencies-
-# |   |     - run: null
-# |   |       name: Install local dependencies
-# |   |       command: npm install
-# |   |     - save_cache: null
-# |   |       key: v1-dependencies-{{ checksum \"package-lock.json\" }}
-# |   |       paths:
-# |   |       - node_modules
-# |   |     - run: null
-# |   |       name: Linting
-# |   |       command: npm run lint
-# |   |     - run: null
-# |   |       name: Testing
-# |   |       command: npm run test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
-# |   |     - run: null
-# |   |       name: End to End Test
-# |   |       command: npm run e2e -- --protractor-config=e2e/protractor-ci.conf.js
-# |   2. [#/workflows/welcome/jobs/1/steps] expected type: Mapping, found: Sequence
-# |   |   SCHEMA:
-# |   |     type: object
-# |   |   INPUT:
-# |   |     - checkout
-# |   |     - run: null
-# |   |       name: Show current branch
-# |   |       command: echo ${CIRCLE_BRANCH}
-# |   |     - restore_cache: null
-# |   |       keys:
-# |   |       - v1-dependencies-{{ checksum \"package-lock.json\" }}
-# |   |       - v1-dependencies-
-# |   |     - run: null
-# |   |       name: Install local dependencies
-# |   |       command: npm install
-# |   |     - save_cache: null
-# |   |       key: v1-dependencies-{{ checksum \"package-lock.json\" }}
-# |   |       paths:
-# |   |       - node_modules
-# |   |     - run: null
-# |   |       name: Linting
-# |   |       command: npm run lint
-# |   |     - run: null
-# |   |       name: Testing
-# |   |       command: npm run test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
-# |   |     - run: null
-# |   |       name: End to End Test
-# |   |       command: npm run e2e -- --protractor-config=e2e/protractor-ci.conf.js
-#
