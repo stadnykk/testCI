@@ -1,4 +1,5 @@
 version: 2
+workflows:
   jobs:
     test:
       working_directory: ~/project-name
