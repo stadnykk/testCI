@@ -10,9 +10,6 @@ workflows:
   welcome:
     # Run the welcome/run job in its own container
     jobs:
-      - working_directory: ~/project-name
-        docker:
-          - image: circleci/node:10-browsers
       - steps:
         # Checkout the code from the branch into the working_directory
         - checkout
